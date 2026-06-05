@@ -14,14 +14,9 @@ def downgrade_car_profile(data):
     original_key_order = ["carName", "carId", "carClass", "ledNumber", "redlineBlinkInterval", "ledColor", "ledRpm"]
     downgraded = {}
     
-    # Copy basic attributes
+    # Ensure we only copy original keys to avoid leaking 'redline2', 'redline3', etc.
     for k in original_key_order:
         if k in data:
-            downgraded[k] = data[k]
-            
-    # Copy any extra attributes
-    for k in data:
-        if k not in downgraded:
             downgraded[k] = data[k]
             
     # 1. Handle Multi-Redline (e.g., Corvette GT3)
@@ -42,21 +37,41 @@ def downgrade_car_profile(data):
     if "ledRpm" in downgraded and isinstance(downgraded["ledRpm"], list) and len(downgraded["ledRpm"]) > 0:
         gear_obj = downgraded["ledRpm"][0]
         
-        # If we had multi-redline, we need to remove the corresponding index 1 value from each gear's RPM array
-        if has_multi_redline:
-            new_gear_obj = {}
-            for gear, rpms in gear_obj.items():
-                if isinstance(rpms, list) and len(rpms) == led_number + 2:
-                    new_rpms = list(rpms)
-                    del new_rpms[1]
-                    new_gear_obj[gear] = new_rpms
+        new_gear_obj = {}
+        for gear, rpms in gear_obj.items():
+            new_rpms = []
+            for rpm in rpms:
+                # Handle RPM ranges like "6600-7015" by taking the lower bound
+                if isinstance(rpm, str) and "-" in rpm and not rpm.startswith("-"):
+                    parts = rpm.split("-")
+                    val = parts[0]
+                    # convert back to int if it's a whole number, else float
+                    new_rpms.append(int(val) if val.isdigit() else float(val))
                 else:
-                    new_gear_obj[gear] = rpms
-            gear_obj = new_gear_obj
-            downgraded["ledRpm"][0] = gear_obj
+                    new_rpms.append(rpm)
             
-        # We don't force fill gears up to 8 anymore, because the original repository was inconsistent (some cars had 8, some had 6).
-        # We leave the gears as defined in the fork template.
+            # If we had multi-redline, remove index 1
+            if has_multi_redline and len(new_rpms) == led_number + 2:
+                del new_rpms[1]
+                
+            new_gear_obj[gear] = new_rpms
+            
+        downgraded["ledRpm"][0] = new_gear_obj
+        
+    # 3. Resolve N-stage string references in ledColor (e.g. "redline2")
+    if "ledColor" in downgraded:
+        resolved_colors = []
+        for color in downgraded["ledColor"]:
+            if isinstance(color, str) and not color.startswith("#"):
+                # It's a reference to a custom key like "redline2"
+                # We try to extract the first color from the original data array, default to Red
+                if color in data and isinstance(data[color], list) and len(data[color]) > 0:
+                    resolved_colors.append(data[color][0])
+                else:
+                    resolved_colors.append("#FF0000FF")
+            else:
+                resolved_colors.append(color)
+        downgraded["ledColor"] = resolved_colors
                     
     return downgraded
 
