@@ -130,6 +130,11 @@
       "carId": "LMP2_ELMS_Oreca 07 ELMS Custom Team 2025_397",
       "fileName": "lmp2-elms-oreca-07-elms-custom-team-2025-397.json",
       "carClass": "LMP2_ELMS"
+    },
+    {
+      "carName": "Oreca 07 Custom Team 2026",
+      "carId": "LMP2_ELMS_Oreca 07 ELMS Custom Team 2025_397 2026",
+      "fileName": "lmp2-elms-oreca-07-elms-custom-team-2026-397.json"
     }
   ]
 }

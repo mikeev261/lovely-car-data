@@ -74,6 +74,11 @@
       "carId": "Proton Competition",
       "fileName": "proton-competition.json",
       "carClass": "Manual input needed"
+    },
+    {
+      "carName": "Hyper_Porsche 963 Custom Team 2026",
+      "carId": "Hyper_Porsche 963 Custom Team 2026",
+      "fileName": "hyper-porsche-963-custom-team-2026.json"
     }
   ]
 }

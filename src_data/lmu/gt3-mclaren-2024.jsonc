@@ -140,6 +140,11 @@
       "carId": "GT3_Garage 59 2026_58",
       "fileName": "gt3-garage-59-2026-58.json",
       "carClass": "GT3"
+    },
+    {
+      "carName": "GT3_McLaren Custom Team 2026",
+      "carId": "GT3_McLaren Custom Team 2026",
+      "fileName": "gt3-mclaren-custom-team-2026.json"
     }
   ]
 }

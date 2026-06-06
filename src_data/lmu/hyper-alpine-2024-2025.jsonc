@@ -98,6 +98,11 @@
       "carId": "Hyper_Alpine Endurance Team 2026_36",
       "fileName": "hyper-alpine-endurance-team-2026-36.json",
       "carClass": "HYP"
+    },
+    {
+      "carName": "Hyper_Alpine Custom Team 2026",
+      "carId": "Hyper_Alpine Custom Team 2026",
+      "fileName": "hyper-alpine-custom-team-2026.json"
     }
   ]
 }

@@ -19,9 +19,24 @@ def downgrade_car_profile(data):
         if k in data:
             downgraded[k] = data[k]
             
+    # Strip statusLeds key and other new schema keys to keep compatibility with upstream
+    if "statusLeds" in downgraded:
+        del downgraded["statusLeds"]
+        
+    keys_to_delete = [k for k in downgraded if k.startswith("redline") and k != "redlineBlinkInterval"]
+    for k in keys_to_delete:
+        del downgraded[k]
+        
+    if "redlineBlinkInterval" in downgraded and isinstance(downgraded["redlineBlinkInterval"], list):
+        downgraded["redlineBlinkInterval"] = downgraded["redlineBlinkInterval"][-1]
+        
+    if "ledColor" in downgraded and len(downgraded["ledColor"]) > 0:
+        if not downgraded["ledColor"][0].startswith("#"):
+            downgraded["ledColor"][0] = "#00000000"
+            
     # Copy any extra attributes
     for k in data:
-        if k not in downgraded:
+        if k not in downgraded and not (k.startswith("redline") and k != "redlineBlinkInterval") and k != "statusLeds":
             downgraded[k] = data[k]
             
     # 1. Handle Multi-Redline (e.g., Corvette GT3)

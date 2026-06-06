@@ -96,6 +96,11 @@
       "carId": "Hyper_Cadillac Hertz Team Jota 2026_38",
       "fileName": "hyper-cadillac-hertz-team-jota-2026-38.json",
       "carClass": "HYP"
+    },
+    {
+      "carName": "Hyper_VLMDH Custom Team 2026",
+      "carId": "Hyper_VLMDH Custom Team 2026",
+      "fileName": "hyper-vlmdh-custom-team-2026.json"
     }
   ]
 }

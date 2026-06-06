@@ -90,6 +90,11 @@
       "carId": "Hyper_Ferrari AF Corse 2026_51",
       "fileName": "hyper-ferrari-af-corse-2026-51.json",
       "carClass": "HYP"
+    },
+    {
+      "carName": "Hyper_499P Custom Team 2026",
+      "carId": "Hyper_499P Custom Team 2026",
+      "fileName": "hyper-499p-custom-team-2026.json"
     }
   ]
 }

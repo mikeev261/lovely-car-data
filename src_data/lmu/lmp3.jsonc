@@ -120,6 +120,21 @@
       "carId": "LMP3_ADESS AD25 Custom Team 2026_397",
       "fileName": "lmp3-adess-ad25-custom-team-2026-397.json",
       "carClass": "LMP3"
+    },
+    {
+      "carName": "Ginetta G61-LT-P3 Custom Team",
+      "carId": "LMP3_Ginetta G61-LT-P3 Custom Team 2026_397",
+      "fileName": "lmp3-ginetta-g61-lt-p3-custom-team-2026-397.json"
+    },
+    {
+      "carName": "Duqueine D09 Custom Team",
+      "carId": "LMP3_Duqueine D09 P3 Custom Team 2026_397",
+      "fileName": "lmp3-duqueine-d09-p3-custom-team-2026-397.json"
+    },
+    {
+      "carName": "LMP3 Team Virage",
+      "carId": "LMP3_Team Virage",
+      "fileName": "lmp3-ligier-js-p325-custom-team-2026.json"
     }
   ]
 }
