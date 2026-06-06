@@ -63,5 +63,11 @@
       "fileName": "gt3-proton-competition-2026-88.json",
       "carClass": "GT3"
     }
-  ]
+  ,
+    {
+      "carName": "GT3_Mustang Custom Team 2026",
+      "carId": "GT3_Mustang Custom Team 2026",
+      "fileName": "gt3-mustang-custom-team-2026.json",
+      "carClass": "GT3 2026"
+    }]
 }

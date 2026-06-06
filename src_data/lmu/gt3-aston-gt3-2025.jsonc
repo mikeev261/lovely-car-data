@@ -75,5 +75,11 @@
       "fileName": "gt3-heart-of-racing-team-2026-27.json",
       "carClass": "GT3"
     }
-  ]
+  ,
+    {
+      "carName": "GT3_AMR GT3 Custom Team 2026",
+      "carId": "GT3_AMR GT3 Custom Team 2026",
+      "fileName": "gt3-amr-gt3-custom-team-2026.json",
+      "carClass": "GT3 2026"
+    }]
 }

@@ -87,5 +87,11 @@
       "fileName": "gt3-the-bend-manthey-2026-92.json",
       "carClass": "GT3"
     }
-  ]
+  ,
+    {
+      "carName": "GT3_911GT3R Custom Team 2026",
+      "carId": "GT3_911GT3R Custom Team 2026",
+      "fileName": "gt3-911gt3r-custom-team-2026.json",
+      "carClass": "GT3 2026"
+    }]
 }

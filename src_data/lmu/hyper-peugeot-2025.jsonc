@@ -51,5 +51,11 @@
       "fileName": "hyper-peugeot-totalenergies-2026-94.json",
       "carClass": "HYP"
     }
-  ]
+  ,
+    {
+      "carName": "Hyper_9x8 Wing Custom Team 2026",
+      "carId": "Hyper_9x8 Wing Custom Team 2026",
+      "fileName": "hyper-9x8-wing-custom-team-2026.json",
+      "carClass": "HYP 2026"
+    }]
 }

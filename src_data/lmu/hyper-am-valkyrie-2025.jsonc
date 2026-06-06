@@ -51,5 +51,11 @@
       "fileName": "hyper-aston-martin-thor-team-2026-009.json",
       "carClass": "HYP"
     }
-  ]
+  ,
+    {
+      "carName": "AM Valkyrie Custom Team 2026",
+      "carId": "Hyper_AM Valkyrie Custom Team 2026",
+      "fileName": "hyper-am-valkyrie-custom-team-2026.json",
+      "carClass": "HYP 2026"
+    }]
 }

@@ -35,5 +35,11 @@
       "fileName": "gt3-mercedes-amg-custom-team-2025.json",
       "carClass": "GT3"
     }
-  ]
+  ,
+    {
+      "carName": "Mercedes AMG LMGT3 2026",
+      "carId": "GT3_Mercedes AMG Custom Team 2026",
+      "fileName": "gt3-mercedes-amg-custom-team-2026.json",
+      "carClass": "GT3 2026"
+    }]
 }

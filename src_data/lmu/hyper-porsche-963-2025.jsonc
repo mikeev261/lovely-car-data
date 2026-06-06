@@ -43,5 +43,11 @@
       "fileName": "hyper-proton-competition-2025.json",
       "carClass": "HYP"
     }
-  ]
+  ,
+    {
+      "carName": "Hyper_Porsche 963 Custom Team 2026",
+      "carId": "Hyper_Porsche 963 Custom Team 2026",
+      "fileName": "hyper-porsche-963-custom-team-2026.json",
+      "carClass": "HYP 2026"
+    }]
 }

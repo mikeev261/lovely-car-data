@@ -63,5 +63,11 @@
       "fileName": "gt3-team-qatar-by-iron-lynx-2026-62.json",
       "carClass": "GT3"
     }
-  ]
+  ,
+    {
+      "carName": "GT3_Huracan Custom Team 2026",
+      "carId": "GT3_Huracan Custom Team 2026",
+      "fileName": "gt3-huracan-custom-team-2026.json",
+      "carClass": "GT3 2026"
+    }]
 }

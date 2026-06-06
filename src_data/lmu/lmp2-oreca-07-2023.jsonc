@@ -341,5 +341,11 @@
       "fileName": "vector-sport.json",
       "carClass": "LMP2"
     }
-  ]
+  ,
+    {
+      "carName": "LMP2_Oreca 07 Custom Team 2026",
+      "carId": "LMP2_Oreca 07 Custom Team 2026",
+      "fileName": "lmp2-oreca-07-custom-team-2026.json",
+      "carClass": "LMP2 2026"
+    }]
 }

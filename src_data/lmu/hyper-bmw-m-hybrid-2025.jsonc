@@ -58,5 +58,17 @@
       "fileName": "hyper-bmw-m-team-wrt-2026-20.json",
       "carClass": "HYP"
     }
-  ]
+  ,
+    {
+      "carName": "Hyper_BMWMH Custom Team 2026",
+      "carId": "Hyper_BMWMH Custom Team 2026",
+      "fileName": "hyper-bmwmh-custom-team-2026.json",
+      "carClass": "HYP 2026"
+    },
+    {
+      "carName": "Hyper_BMWMH Custom Team 2026",
+      "carId": "Hyper_BMWMH Custom Team 2026_397",
+      "fileName": "hyper-bmwmh-custom-team-2026-397.json",
+      "carClass": "HYP 2026"
+    }]
 }

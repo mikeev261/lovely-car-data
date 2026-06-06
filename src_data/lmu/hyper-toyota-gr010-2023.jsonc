@@ -75,5 +75,11 @@
       "fileName": "hyper-toyota-racing-2026-8.json",
       "carClass": "HYP"
     }
-  ]
+  ,
+    {
+      "carName": "Toyota Gazoo Racing 2026",
+      "carId": "Hyper_Toyota GR010 Custom Team 2026",
+      "fileName": "hyper-toyota-gr010-custom-team-2026.json",
+      "carClass": "GT3 2026"
+    }]
 }
