@@ -8,9 +8,10 @@ import datetime
 def load_jsonc(filepath):
     with open(filepath, 'r', encoding='utf-8') as f:
         content = f.read()
+        original_unstripped = content
     # Strip true comments (//) before parsing
     content = re.sub(r'^\s*//.*$', '', content, flags=re.MULTILINE)
-    return json.loads(content), content
+    return json.loads(content), original_unstripped
 
 def get_minimum_precision(arr, max_decimals=6):
     baseline = float(arr[0])
@@ -188,7 +189,7 @@ def main():
     args = parser.parse_args()
 
     src_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "src_data", "lmu")
-    files = glob.glob(os.path.join(src_dir, "*.jsonc"))
+    files = glob.glob(os.path.join(src_dir, "*.json"))
 
     if args.log:
         log_dir = os.path.join(src_dir, "log")

@@ -14,9 +14,25 @@ def downgrade_car_profile(data):
     original_key_order = ["carName", "carId", "carClass", "ledNumber", "redlineBlinkInterval", "ledColor", "ledRpm"]
     downgraded = {}
     
-    # Ensure we only copy original keys to avoid leaking 'redline2', 'redline3', etc.
+    # Copy basic attributes
     for k in original_key_order:
         if k in data:
+            downgraded[k] = data[k]
+            
+    # Strip statusLeds key and other new schema keys to keep compatibility with upstream
+    if "statusLeds" in downgraded:
+        del downgraded["statusLeds"]
+        
+    keys_to_delete = [k for k in downgraded if k.startswith("redline") and k != "redlineBlinkInterval"]
+    for k in keys_to_delete:
+        del downgraded[k]
+        
+    if "redlineBlinkInterval" in downgraded and isinstance(downgraded["redlineBlinkInterval"], list):
+        downgraded["redlineBlinkInterval"] = downgraded["redlineBlinkInterval"][-1]
+        
+    # Copy any extra attributes
+    for k in data:
+        if k not in downgraded and not (k.startswith("redline") and k != "redlineBlinkInterval") and k != "statusLeds":
             downgraded[k] = data[k]
             
     # 1. Handle Multi-Redline (e.g., Corvette GT3)
@@ -28,10 +44,15 @@ def downgrade_car_profile(data):
     has_multi_redline = False
     if led_number is not None and len(led_color) == led_number + 2:
         has_multi_redline = True
-        # Remove the extra redline color at index 1
+        # Use the extra redline color at index 1 as the fallback, then remove it
         new_color = list(led_color)
+        new_color[0] = new_color[1]
         del new_color[1]
         downgraded["ledColor"] = new_color
+        
+    if "ledColor" in downgraded and len(downgraded["ledColor"]) > 0:
+        if not downgraded["ledColor"][0].startswith("#"):
+            downgraded["ledColor"][0] = "#00000000"
         
     # 2. Process ledRpm
     if "ledRpm" in downgraded and isinstance(downgraded["ledRpm"], list) and len(downgraded["ledRpm"]) > 0:
@@ -39,39 +60,31 @@ def downgrade_car_profile(data):
         
         new_gear_obj = {}
         for gear, rpms in gear_obj.items():
-            new_rpms = []
-            for rpm in rpms:
-                # Handle RPM ranges like "6600-7015" by taking the lower bound
-                if isinstance(rpm, str) and "-" in rpm and not rpm.startswith("-"):
-                    parts = rpm.split("-")
-                    val = parts[0]
-                    # convert back to int if it's a whole number, else float
-                    new_rpms.append(int(val) if val.isdigit() else float(val))
-                else:
-                    new_rpms.append(rpm)
-            
-            # If we had multi-redline, remove index 1
-            if has_multi_redline and len(new_rpms) == led_number + 2:
-                del new_rpms[1]
+            if not isinstance(rpms, list):
+                new_gear_obj[gear] = rpms
+                continue
                 
-            new_gear_obj[gear] = new_rpms
+            parsed_rpms = []
+            for val in rpms:
+                if isinstance(val, str) and "-" in val and not val.startswith("-"):
+                    try:
+                        first_part = val.split("-")[0].strip()
+                        if "." in first_part:
+                            parsed_rpms.append(float(first_part))
+                        else:
+                            parsed_rpms.append(int(first_part))
+                    except ValueError:
+                        parsed_rpms.append(val)
+                else:
+                    parsed_rpms.append(val)
+                    
+            # If we had multi-redline, we need to remove the corresponding index 1 value from each gear's RPM array
+            if has_multi_redline and len(parsed_rpms) == led_number + 2:
+                del parsed_rpms[1]
+                
+            new_gear_obj[gear] = parsed_rpms
             
         downgraded["ledRpm"][0] = new_gear_obj
-        
-    # 3. Resolve N-stage string references in ledColor (e.g. "redline2")
-    if "ledColor" in downgraded:
-        resolved_colors = []
-        for color in downgraded["ledColor"]:
-            if isinstance(color, str) and not color.startswith("#"):
-                # It's a reference to a custom key like "redline2"
-                # We try to extract the first color from the original data array, default to Red
-                if color in data and isinstance(data[color], list) and len(data[color]) > 0:
-                    resolved_colors.append(data[color][0])
-                else:
-                    resolved_colors.append("#FF0000FF")
-            else:
-                resolved_colors.append(color)
-        downgraded["ledColor"] = resolved_colors
                     
     return downgraded
 
@@ -110,21 +123,27 @@ def format_car_profile(data):
     return json_str + "\n"
 
 def process_directory(src_dir, dest_dir):
-    os.makedirs(dest_dir, exist_ok=True)
-    for filename in os.listdir(src_dir):
-        if not filename.endswith('.json'):
-            continue
-        src_path = os.path.join(src_dir, filename)
-        dest_path = os.path.join(dest_dir, filename)
+    for root, dirs, files in os.walk(src_dir):
+        # Determine the relative path to maintain directory structure
+        rel_path = os.path.relpath(root, src_dir)
+        current_dest_dir = os.path.join(dest_dir, rel_path) if rel_path != '.' else dest_dir
         
-        try:
-            data = load_jsonc(src_path)
-            downgraded = downgrade_car_profile(data)
-            json_str = format_car_profile(downgraded)
-            with open(dest_path, 'w', encoding='utf-8') as f:
-                f.write(json_str)
-        except Exception as e:
-            print(f"Error processing {filename}: {e}")
+        os.makedirs(current_dest_dir, exist_ok=True)
+        
+        for filename in files:
+            if not filename.endswith('.jsonc'):
+                continue
+            src_path = os.path.join(root, filename)
+            dest_path = os.path.join(current_dest_dir, filename)
+            
+            try:
+                data = load_jsonc(src_path)
+                downgraded = downgrade_car_profile(data)
+                json_str = format_car_profile(downgraded)
+                with open(dest_path, 'w', encoding='utf-8') as f:
+                    f.write(json_str)
+            except Exception as e:
+                print(f"Error processing {filename}: {e}")
 
 if __name__ == "__main__":
     import sys
