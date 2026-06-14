@@ -5,65 +5,46 @@ import re
 def load_jsonc(filepath):
     with open(filepath, 'r', encoding='utf-8') as f:
         content = f.read()
-    # Strip comments
-    content = re.sub(r'^\s*//.*$', '', content, flags=re.MULTILINE)
+    # Strip comments including trailing ones
+    content = re.sub(r'\s*//.*$', '', content, flags=re.MULTILINE)
     return json.loads(content)
 
 def downgrade_car_profile(data):
-    # Enforce original key order
-    original_key_order = ["carName", "carId", "carClass", "ledNumber", "redlineBlinkInterval", "ledColor", "ledRpm"]
-    downgraded = {}
+    downgraded = dict(data)
     
-    # Copy basic attributes
-    for k in original_key_order:
-        if k in data:
-            downgraded[k] = data[k]
-            
-    # Strip statusLeds key and other new schema keys to keep compatibility with upstream
-    if "statusLeds" in downgraded:
-        del downgraded["statusLeds"]
+    # 1. Apply explicit _downgradeOverrides for v2.0.0
+    overrides = downgraded.get("_downgradeOverrides", {}).get("v2.0.0", {})
+    for k, v in overrides.items():
+        downgraded[k] = v
         
-    keys_to_delete = [k for k in downgraded if k.startswith("redline") and k != "redlineBlinkInterval"]
+    # 2. Cleanup custom vHH3.0 keys and internal metadata
+    keys_to_delete = [
+        k for k in downgraded 
+        if k.startswith("_") or k == "statusLeds" or (k.startswith("redline") and k != "redlineBlinkInterval")
+    ]
     for k in keys_to_delete:
         del downgraded[k]
         
+    # 3. Handle array-based redlineBlinkInterval
     if "redlineBlinkInterval" in downgraded and isinstance(downgraded["redlineBlinkInterval"], list):
-        downgraded["redlineBlinkInterval"] = downgraded["redlineBlinkInterval"][-1]
-        
-    # Copy any extra attributes
-    for k in data:
-        if k not in downgraded and not (k.startswith("redline") and k != "redlineBlinkInterval") and k != "statusLeds":
-            downgraded[k] = data[k]
+        if downgraded["redlineBlinkInterval"]:
+            downgraded["redlineBlinkInterval"] = downgraded["redlineBlinkInterval"][-1]
+        else:
+            downgraded["redlineBlinkInterval"] = 0
             
-    # 1. Handle Multi-Redline (e.g., Corvette GT3)
-    # The original schema expects len(ledColor) == ledNumber + 1
-    # Our fork has len(ledColor) == ledNumber + 2 (because of the extra redline value inserted at index 1)
-    led_number = downgraded.get("ledNumber")
-    led_color = downgraded.get("ledColor", [])
-    
-    has_multi_redline = False
-    if led_number is not None and len(led_color) == led_number + 2:
-        has_multi_redline = True
-        # Use the extra redline color at index 1 as the fallback, then remove it
-        new_color = list(led_color)
-        new_color[0] = new_color[1]
-        del new_color[1]
-        downgraded["ledColor"] = new_color
-        
+    # 4. Generic fallback if ledColor still contains aliases
     if "ledColor" in downgraded and len(downgraded["ledColor"]) > 0:
         if not downgraded["ledColor"][0].startswith("#"):
-            downgraded["ledColor"][0] = "#00000000"
-        
-    # 2. Process ledRpm
+            downgraded["ledColor"][0] = "#FF00FF00"
+            
+    # 5. Generic fallback for ledRpm string parsing
     if "ledRpm" in downgraded and isinstance(downgraded["ledRpm"], list) and len(downgraded["ledRpm"]) > 0:
         gear_obj = downgraded["ledRpm"][0]
-        
         new_gear_obj = {}
         for gear, rpms in gear_obj.items():
             if not isinstance(rpms, list):
                 new_gear_obj[gear] = rpms
                 continue
-                
             parsed_rpms = []
             for val in rpms:
                 if isinstance(val, str) and "-" in val and not val.startswith("-"):
@@ -77,16 +58,20 @@ def downgrade_car_profile(data):
                         parsed_rpms.append(val)
                 else:
                     parsed_rpms.append(val)
-                    
-            # If we had multi-redline, we need to remove the corresponding index 1 value from each gear's RPM array
-            if has_multi_redline and len(parsed_rpms) == led_number + 2:
-                del parsed_rpms[1]
-                
             new_gear_obj[gear] = parsed_rpms
-            
         downgraded["ledRpm"][0] = new_gear_obj
-                    
-    return downgraded
+
+    # 6. Enforce original key order
+    original_key_order = ["carName", "carId", "carClass", "ledNumber", "redlineBlinkInterval", "ledColor", "ledRpm"]
+    final_ordered = {}
+    for k in original_key_order:
+        if k in downgraded:
+            final_ordered[k] = downgraded[k]
+    for k in downgraded:
+        if k not in final_ordered:
+            final_ordered[k] = downgraded[k]
+            
+    return final_ordered
 
 def format_car_profile(data):
     # Enforce original key order

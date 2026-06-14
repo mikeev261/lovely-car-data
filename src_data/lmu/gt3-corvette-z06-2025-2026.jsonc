@@ -1,4 +1,5 @@
 {
+  "_schemaVersion": "vHH3.0",
   "carClass": "GT3",
   "ledNumber": 8,
   "redlineBlinkInterval": 0,
@@ -21,32 +22,38 @@
     {
       "carName": "GT3_AWA Racing 2025",
       "carId": "GT3_AWA Racing 2025",
-      "fileName": "gt3-awa-racing-2025.json"
+      "fileName": "gt3-awa-racing-2025.json",
+      "ledColor": ["#FFFF0000","#FF00FF00","#FF00FF00","#FF00FF00","#FF00FF00","#FF00FF00","#FF00FF00","#FFFFFF00","#FFFFFF00"]
     },
     {
       "carName": "GT3_TF Sport 2025",
       "carId": "GT3_TF Sport 2025",
-      "fileName": "gt3-tf-sport-2025.json"
+      "fileName": "gt3-tf-sport-2025.json",
+      "ledColor": ["#FFFF0000","#FF00FF00","#FF00FF00","#FF00FF00","#FF00FF00","#FF00FF00","#FF00FF00","#FFFFFF00","#FFFFFF00"]
     },
     {
       "carName": "GT3_Z06GT3R Custom Team 2025",
       "carId": "GT3_Z06GT3R Custom Team 2025",
-      "fileName": "gt3-z06gt3r-custom-team-2025.json"
+      "fileName": "gt3-z06gt3r-custom-team-2025.json",
+      "ledColor": ["#FFFF0000","#FF00FF00","#FF00FF00","#FF00FF00","#FF00FF00","#FF00FF00","#FF00FF00","#FFFFFF00","#FFFFFF00"]
     },
     {
       "carName": "GT3_TF Sport 2026",
       "carId": "GT3_TF Sport 2026_33",
-      "fileName": "gt3-tf-sport-2026-33.json"
+      "fileName": "gt3-tf-sport-2026-33.json",
+      "ledColor": ["#FFFF0000","#FF00FF00","#FF00FF00","#FF00FF00","#FF00FF00","#FF00FF00","#FF00FF00","#FFFFFF00","#FFFFFF00"]
     },
     {
       "carName": "GT3_Racing Team Turkey by TF 2026",
       "carId": "GT3_Racing Team Turkey by TF 2026_34",
-      "fileName": "gt3-racing-team-turkey-by-tf-2026-34.json"
+      "fileName": "gt3-racing-team-turkey-by-tf-2026-34.json",
+      "ledColor": ["#FFFF0000","#FF00FF00","#FF00FF00","#FF00FF00","#FF00FF00","#FF00FF00","#FF00FF00","#FFFFFF00","#FFFFFF00"]
     },
     {
       "carName": "GT3_Z06GT3R Custom Team 2026",
       "carId": "GT3_Z06GT3R Custom Team 2026_397",
-      "fileName": "gt3-z06gt3r-custom-team-2026-397.json"
+      "fileName": "gt3-z06gt3r-custom-team-2026-397.json",
+      "ledColor": ["#FFFF0000","#FF00FF00","#FF00FF00","#FF00FF00","#FF00FF00","#FF00FF00","#FF00FF00","#FFFFFF00","#FFFFFF00"]
     }
   ]
 }
