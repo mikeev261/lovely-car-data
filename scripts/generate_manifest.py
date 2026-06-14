@@ -90,7 +90,7 @@ def generate_manifest(data_dir: Path) -> int:
         json.dump(manifest, f, indent=2, ensure_ascii=False)
         f.write('\n')
 
-    print(f"✓ Generated manifest with {total} total car(s) across sims")
+    print(f"[OK] Generated manifest with {total} total car(s) across sims")
     return total
 
 

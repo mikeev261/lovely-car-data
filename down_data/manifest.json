@@ -1751,8 +1751,8 @@
         "path": "lmu/af-corse-2024.json"
       },
       {
-        "carName": "AF Corse GTE",
-        "carId": "AF Corse GTE",
+        "carName": "GTE_AF Corse",
+        "carId": "GTE_AF Corse",
         "path": "lmu/af-corse-gte.json"
       },
       {
@@ -1816,8 +1816,8 @@
         "path": "lmu/cool-racing.json"
       },
       {
-        "carName": "Corvette Racing",
-        "carId": "Corvette Racing",
+        "carName": "GTE_Corvette Racing",
+        "carId": "GTE_Corvette Racing",
         "path": "lmu/corvette-racing.json"
       },
       {
@@ -1826,13 +1826,13 @@
         "path": "lmu/crowdstrike-racing-by-apr-2024.json"
       },
       {
-        "carName": "D'station Racing",
-        "carId": "D'station Racing",
+        "carName": "GTE_D'station Racing",
+        "carId": "GTE_D'station Racing",
         "path": "lmu/d-station-racing.json"
       },
       {
-        "carName": "Dempsey-Proton Racing",
-        "carId": "Dempsey-Proton Racing",
+        "carName": "GTE_Dempsey-Proton Racing",
+        "carId": "GTE_Dempsey-Proton Racing",
         "path": "lmu/dempsey-proton-racing.json"
       },
       {
@@ -1876,8 +1876,8 @@
         "path": "lmu/glickenhaus-racing.json"
       },
       {
-        "carName": "GMB Motorsport",
-        "carId": "GMB Motorsport",
+        "carName": "GTE_GMB Motorsport",
+        "carId": "GTE_GMB Motorsport",
         "path": "lmu/gmb-motorsport.json"
       },
       {
@@ -1886,8 +1886,8 @@
         "path": "lmu/gr-racing-2024.json"
       },
       {
-        "carName": "GR Racing",
-        "carId": "GR Racing",
+        "carName": "GTE_GR Racing",
+        "carId": "GTE_GR Racing",
         "path": "lmu/gr-racing.json"
       },
       {
@@ -2731,13 +2731,13 @@
         "path": "lmu/inter-europol-competition.json"
       },
       {
-        "carName": "Iron Dames",
-        "carId": "Iron Dames",
+        "carName": "GTE_Iron Dames",
+        "carId": "GTE_Iron Dames",
         "path": "lmu/iron-dames.json"
       },
       {
-        "carName": "Iron Lynx",
-        "carId": "Iron Lynx",
+        "carName": "GTE_Iron Lynx",
+        "carId": "GTE_Iron Lynx",
         "path": "lmu/iron-lynx.json"
       },
       {
@@ -2751,8 +2751,8 @@
         "path": "lmu/jmw-motorsport-2024-2024.json"
       },
       {
-        "carName": "JMW Motorsport",
-        "carId": "JMW Motorsport",
+        "carName": "GTE_JMW Motorsport",
+        "carId": "GTE_JMW Motorsport",
         "path": "lmu/jmw-motorsport.json"
       },
       {
@@ -2766,8 +2766,8 @@
         "path": "lmu/jota.json"
       },
       {
-        "carName": "Kessel Racing",
-        "carId": "Kessel Racing",
+        "carName": "GTE_Kessel Racing",
+        "carId": "GTE_Kessel Racing",
         "path": "lmu/kessel-racing.json"
       },
       {
@@ -3091,13 +3091,13 @@
         "path": "lmu/nielsen-racing.json"
       },
       {
-        "carName": "Northwest AMR",
-        "carId": "Northwest AMR",
+        "carName": "GTE_Northwest AMR",
+        "carId": "GTE_Northwest AMR",
         "path": "lmu/northwest-amr.json"
       },
       {
-        "carName": "ORT by TF",
-        "carId": "ORT by TF",
+        "carName": "GTE_ORT by TF",
+        "carId": "GTE_ORT by TF",
         "path": "lmu/ort-by-tf.json"
       },
       {
@@ -3151,8 +3151,8 @@
         "path": "lmu/prema-racing.json"
       },
       {
-        "carName": "Project 1 - AO",
-        "carId": "Project 1 - AO",
+        "carName": "GTE_Project 1 - AO",
+        "carId": "GTE_Project 1 - AO",
         "path": "lmu/project-1-ao.json"
       },
       {
@@ -3161,8 +3161,8 @@
         "path": "lmu/proton-competition-2024.json"
       },
       {
-        "carName": "Proton Competition GTE",
-        "carId": "Proton Competition GTE",
+        "carName": "GTE_Proton Competition",
+        "carId": "GTE_Proton Competition",
         "path": "lmu/proton-competition-gte.json"
       },
       {
@@ -3196,13 +3196,13 @@
         "path": "lmu/team-wrt.json"
       },
       {
-        "carName": "TF Sport",
-        "carId": "TF Sport",
+        "carName": "GTE_TF Sport",
+        "carId": "GTE_TF Sport",
         "path": "lmu/tf-sport.json"
       },
       {
-        "carName": "The Heart of Racing",
-        "carId": "The Heart of Racing",
+        "carName": "GTE_The Heart of Racing",
+        "carId": "GTE_The Heart of Racing",
         "path": "lmu/the-heart-of-racing.json"
       },
       {
@@ -3256,8 +3256,8 @@
         "path": "lmu/vista-af-corse-2024.json"
       },
       {
-        "carName": "Walkenhorst Motorsport",
-        "carId": "Walkenhorst Motorsport",
+        "carName": "GTE_Walkenhorst Motorsport",
+        "carId": "GTE_Walkenhorst Motorsport",
         "path": "lmu/walkenhorst-motorsport.json"
       },
       {

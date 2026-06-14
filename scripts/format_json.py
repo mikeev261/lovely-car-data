@@ -102,5 +102,5 @@ if __name__ == "__main__":
                 continue
                 
             json_str = format_car_profile(data)
-            with open(filepath, 'w', encoding='utf-8') as f:
+            with open(filepath, 'w', encoding='utf-8', newline='\r\n') as f:
                 f.write(json_str)

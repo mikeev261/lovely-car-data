@@ -171,7 +171,7 @@ def process_directory(src_dir, dest_dir):
                 data = load_jsonc(src_path)
                 downgraded = downgrade_car_profile(data)
                 json_str = format_car_profile(downgraded)
-                with open(dest_path, 'w', encoding='utf-8') as f:
+                with open(dest_path, 'w', encoding='utf-8', newline='\r\n') as f:
                     f.write(json_str)
             except Exception as e:
                 print(f"Error processing {filename}: {e}")
