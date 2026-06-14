@@ -85,22 +85,27 @@ def downgrade_car_profile(data, base_data=None):
             downgraded["ledRpm"][i] = new_gear_obj
 
     # 6. Truncate arrays to ledNumber + 1 for v2.0.0 compliance
+    # Since stages are at the BEGINNING of the array (vHH3.0 might have multiple stages), 
+    # we must keep the 1st stage and the last N base colors.
     expected_len = downgraded.get("ledNumber")
     if expected_len is None and base_data:
         expected_len = base_data.get("ledNumber")
         
     if expected_len is not None:
         expected_len += 1
+        num_base_colors = expected_len - 1
+        
         if "ledColor" in downgraded and isinstance(downgraded["ledColor"], list):
-            if len(downgraded["ledColor"]) > expected_len:
-                downgraded["ledColor"] = downgraded["ledColor"][:expected_len]
+            arr = downgraded["ledColor"]
+            if len(arr) > expected_len:
+                downgraded["ledColor"] = [arr[0]] + arr[-num_base_colors:]
                 
         if "ledRpm" in downgraded and isinstance(downgraded["ledRpm"], list):
             for gear_obj in downgraded["ledRpm"]:
                 if isinstance(gear_obj, dict):
                     for gear, rpms in gear_obj.items():
                         if isinstance(rpms, list) and len(rpms) > expected_len:
-                            gear_obj[gear] = rpms[:expected_len]
+                            gear_obj[gear] = [rpms[0]] + rpms[-num_base_colors:]
 
     # 7. Enforce original key order
     original_key_order = ["carName", "carId", "carClass", "ledNumber", "redlineBlinkInterval", "ledColor", "ledRpm"]
