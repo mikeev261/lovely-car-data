@@ -27,6 +27,9 @@ def downgrade_src_file(data):
     return ordered_base
 
 def process_directory(src_dir, dest_dir):
+    # Keep track of valid files to clean up orphaned ones
+    valid_dest_files = set()
+    
     for root, dirs, files in os.walk(src_dir):
         rel_path = os.path.relpath(root, src_dir)
         current_dest_dir = os.path.join(dest_dir, rel_path) if rel_path != '.' else dest_dir
@@ -77,8 +80,22 @@ def process_directory(src_dir, dest_dir):
                 
                 with open(dest_path, 'w', encoding='utf-8') as f:
                     f.write(json_str + "\n")
+                valid_dest_files.add(os.path.normpath(dest_path))
             except Exception as e:
                 print(f"Error processing {filename}: {e}")
+
+    # Clean up orphaned files in dest_dir
+    for root, dirs, files in os.walk(dest_dir):
+        for filename in files:
+            if not filename.endswith('.jsonc'):
+                continue
+            dest_path = os.path.normpath(os.path.join(root, filename))
+            if dest_path not in valid_dest_files:
+                try:
+                    os.remove(dest_path)
+                    print(f"Removed orphaned file: {dest_path}")
+                except Exception as e:
+                    print(f"Failed to remove {dest_path}: {e}")
 
 if __name__ == "__main__":
     import sys
