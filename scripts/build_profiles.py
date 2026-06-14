@@ -92,7 +92,7 @@ def build_profiles(src_base_dir, out_base_dir):
             import format_json
             json_str = format_json.format_car_profile(final_data)
             
-            with open(out_filepath, 'w', encoding='utf-8', newline='\r\n') as f:
+            with open(out_filepath, 'w', encoding='utf-8') as f:
                 f.write(json_str)
                 
             generated_files.append(out_filepath)
