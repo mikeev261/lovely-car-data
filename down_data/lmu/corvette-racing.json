@@ -1,6 +1,6 @@
 {
-  "carName": "Corvette Racing",
-  "carId": "Corvette Racing",
+  "carName": "GTE_Corvette Racing",
+  "carId": "GTE_Corvette Racing",
   "carClass": "GTE",
   "ledNumber": 12,
   "redlineBlinkInterval": 0,

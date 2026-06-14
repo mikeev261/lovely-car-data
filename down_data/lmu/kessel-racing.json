@@ -1,6 +1,6 @@
 {
-  "carName": "Kessel Racing",
-  "carId": "Kessel Racing",
+  "carName": "GTE_Kessel Racing",
+  "carId": "GTE_Kessel Racing",
   "carClass": "GTE",
   "ledNumber": 6,
   "redlineBlinkInterval": 0,
