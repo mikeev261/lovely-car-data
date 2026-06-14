@@ -9,13 +9,32 @@ def load_jsonc(filepath):
     content = re.sub(r'("(?:\\"|[^"])*")|//.*', lambda m: m.group(1) if m.group(1) else '', content)
     return json.loads(content)
 
-def downgrade_car_profile(data):
+def downgrade_car_profile(data, base_data=None):
     downgraded = dict(data)
     
     # 1. Apply explicit _downgradeOverrides for v2.0.0
     overrides = downgraded.get("_downgradeOverrides", {}).get("v2.0.0", {})
     for k, v in overrides.items():
         downgraded[k] = v
+        
+    # 2. Resolve redline aliases in ledColor BEFORE deleting the aliases
+    if "ledColor" in downgraded and isinstance(downgraded["ledColor"], list):
+        new_led_color = []
+        for c in downgraded["ledColor"]:
+            if c.startswith("redline"):
+                val = downgraded.get(c)
+                if val is None and base_data:
+                    val = base_data.get(c)
+                    
+                if isinstance(val, str) and val.startswith("#"):
+                    new_led_color.append(val)
+                elif isinstance(val, list) and len(val) > 0 and isinstance(val[0], str) and val[0].startswith("#"):
+                    new_led_color.append(val[0])
+                else:
+                    new_led_color.append(c)
+            else:
+                new_led_color.append(c)
+        downgraded["ledColor"] = new_led_color
         
     # 2. Cleanup custom vHH3.0 keys and internal metadata
     keys_to_delete = [

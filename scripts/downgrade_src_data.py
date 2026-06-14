@@ -20,7 +20,7 @@ def downgrade_src_file(data):
     # process variants
     downgraded_variants = []
     for variant in variants:
-        dv = downgrade_schema.downgrade_car_profile(variant)
+        dv = downgrade_schema.downgrade_car_profile(variant, base_data=data)
         downgraded_variants.append(dv)
         
     ordered_base["variants"] = downgraded_variants
