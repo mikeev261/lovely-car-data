@@ -61,11 +61,26 @@ def build_profiles(src_base_dir, out_base_dir):
                         if isinstance(v, dict) and "redline" in v and "step" in v:
                             redline = v["redline"]
                             step = v["step"]
-                            new_array = [redline]
-                            for i in range(1, led_count + 1):
-                                val = int(round(redline - (led_count - i) * step))
-                                new_array.append(val)
-                            gear_obj[k] = new_array
+                            direction = v.get("direction", "left-to-right")
+                            
+                            base_array = [0] * led_count
+                            if direction == "left-to-right":
+                                for i in range(led_count):
+                                    base_array[i] = int(round(redline - (led_count - 1 - i) * step))
+                            elif direction == "right-to-left":
+                                for i in range(led_count):
+                                    base_array[i] = int(round(redline - i * step))
+                            elif direction == "outside-in":
+                                max_dist = (led_count - 1) // 2
+                                for i in range(led_count):
+                                    dist_from_edge = min(i, led_count - 1 - i)
+                                    base_array[i] = int(round(redline - (max_dist - dist_from_edge) * step))
+                            elif direction == "inside-out":
+                                for i in range(led_count):
+                                    dist_from_edge = min(i, led_count - 1 - i)
+                                    base_array[i] = int(round(redline - dist_from_edge * step))
+                                    
+                            gear_obj[k] = [redline] + base_array
                 
             out_filename = variant.get("fileName")
             if not out_filename:
