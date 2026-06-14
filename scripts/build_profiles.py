@@ -5,8 +5,8 @@ import re
 def load_jsonc(filepath):
     with open(filepath, 'r', encoding='utf-8') as f:
         content = f.read()
-    # Strip true comments (//) before parsing
-    content = re.sub(r'\s*//.*$', '', content, flags=re.MULTILINE)
+    # Strip true comments (//) before parsing, safely ignoring strings
+    content = re.sub(r'("(?:\\"|[^"])*")|//.*', lambda m: m.group(1) if m.group(1) else '', content)
     return json.loads(content)
 
 def build_profiles(src_base_dir, out_base_dir):

@@ -33,5 +33,6 @@
   "BMW M Power": "LMDh",
   "Porsche 992": "P992",
   "GTE Class": "GTE",
-  "Super SF23": "SF23"
+  "Super SF23": "SF23",
+  "_schemaVersion": "v2.0.0"
 }

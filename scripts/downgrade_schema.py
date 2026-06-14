@@ -5,8 +5,8 @@ import re
 def load_jsonc(filepath):
     with open(filepath, 'r', encoding='utf-8') as f:
         content = f.read()
-    # Strip comments including trailing ones
-    content = re.sub(r'\s*//.*$', '', content, flags=re.MULTILINE)
+    # Strip comments safely ignoring strings
+    content = re.sub(r'("(?:\\"|[^"])*")|//.*', lambda m: m.group(1) if m.group(1) else '', content)
     return json.loads(content)
 
 def downgrade_car_profile(data):
@@ -20,10 +20,12 @@ def downgrade_car_profile(data):
     # 2. Cleanup custom vHH3.0 keys and internal metadata
     keys_to_delete = [
         k for k in downgraded 
-        if k.startswith("_") or k == "statusLeds" or (k.startswith("redline") and k != "redlineBlinkInterval")
+        if (k.startswith("_") and k != "_schemaVersion") or k == "statusLeds" or (k.startswith("redline") and k != "redlineBlinkInterval")
     ]
     for k in keys_to_delete:
         del downgraded[k]
+        
+    downgraded["_schemaVersion"] = "v2.0.0"
         
     # 3. Handle array-based redlineBlinkInterval
     if "redlineBlinkInterval" in downgraded and isinstance(downgraded["redlineBlinkInterval"], list):
@@ -104,7 +106,7 @@ def format_car_profile(data):
         values = re.findall(r'"[^"]*"|-?\d+\.?\d*', inner)
         return f'{newline}{spaces}"{key_name}": [' + ','.join(values) + ']'
         
-    json_str = re.sub(r'(^|\n)(\s*)"([R|N|1|2|3|4|5|6|7|8])":\s*\[([^\]]*)\]', lambda m: compress_rpm(m), json_str)
+    json_str = re.sub(r'(^|\n)(\s*)"([RN1-9])":\s*\[([^\]]*)\]', lambda m: compress_rpm(m), json_str)
     return json_str + "\n"
 
 def process_directory(src_dir, dest_dir):
