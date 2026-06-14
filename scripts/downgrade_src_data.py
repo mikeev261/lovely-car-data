@@ -62,7 +62,7 @@ def process_directory(src_dir, dest_dir):
                     values = re.findall(r'"[^"]*"|-?\d+\.?\d*', inner)
                     return f'{newline}{spaces}"{key_name}": [' + ','.join(values) + ']'
                     
-                json_str = re.sub(r'(^|\n)(\s*)"([RN1-9])":\s*\[([^\]]*)\]', lambda m: compress_rpm(m), json_str)
+                json_str = re.sub(r'(^|\n)(\s*)"([RN0-9]+)":\s*\[([^\]]*)\]', lambda m: compress_rpm(m), json_str)
                 
                 # Compress generator objects back to single lines
                 def compress_generator(match):
@@ -73,7 +73,7 @@ def process_directory(src_dir, dest_dir):
                     compressed_inner = re.sub(r'\s+', ' ', inner).strip()
                     return f'{newline}{spaces}"{key_name}": {{ {compressed_inner} }}'
                     
-                json_str = re.sub(r'(^|\n)(\s*)"([RN1-9])":\s*\{\s*([^}]*?)\s*\}', lambda m: compress_generator(m), json_str)
+                json_str = re.sub(r'(^|\n)(\s*)"([RN0-9]+)":\s*\{\s*([^}]*?)\s*\}', lambda m: compress_generator(m), json_str)
                 
                 with open(dest_path, 'w', encoding='utf-8') as f:
                     f.write(json_str + "\n")

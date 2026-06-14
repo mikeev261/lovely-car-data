@@ -59,30 +59,50 @@ def downgrade_car_profile(data, base_data=None):
             downgraded["ledColor"][0] = "#FF00FF00"
             
     # 5. Generic fallback for ledRpm string parsing
-    if "ledRpm" in downgraded and isinstance(downgraded["ledRpm"], list) and len(downgraded["ledRpm"]) > 0:
-        gear_obj = downgraded["ledRpm"][0]
-        new_gear_obj = {}
-        for gear, rpms in gear_obj.items():
-            if not isinstance(rpms, list):
-                new_gear_obj[gear] = rpms
+    if "ledRpm" in downgraded and isinstance(downgraded["ledRpm"], list):
+        for i, gear_obj in enumerate(downgraded["ledRpm"]):
+            if not isinstance(gear_obj, dict):
                 continue
-            parsed_rpms = []
-            for val in rpms:
-                if isinstance(val, str) and "-" in val and not val.startswith("-"):
-                    try:
-                        first_part = val.split("-")[0].strip()
-                        if "." in first_part:
-                            parsed_rpms.append(float(first_part))
-                        else:
-                            parsed_rpms.append(int(first_part))
-                    except ValueError:
+            new_gear_obj = {}
+            for gear, rpms in gear_obj.items():
+                if not isinstance(rpms, list):
+                    new_gear_obj[gear] = rpms
+                    continue
+                parsed_rpms = []
+                for val in rpms:
+                    if isinstance(val, str) and "-" in val and not val.startswith("-"):
+                        try:
+                            first_part = val.split("-")[0].strip()
+                            if "." in first_part:
+                                parsed_rpms.append(float(first_part))
+                            else:
+                                parsed_rpms.append(int(first_part))
+                        except ValueError:
+                            parsed_rpms.append(val)
+                    else:
                         parsed_rpms.append(val)
-                else:
-                    parsed_rpms.append(val)
-            new_gear_obj[gear] = parsed_rpms
-        downgraded["ledRpm"][0] = new_gear_obj
+                new_gear_obj[gear] = parsed_rpms
+            downgraded["ledRpm"][i] = new_gear_obj
 
-    # 6. Enforce original key order
+    # 6. Truncate arrays to ledNumber + 1 for v2.0.0 compliance
+    expected_len = downgraded.get("ledNumber")
+    if expected_len is None and base_data:
+        expected_len = base_data.get("ledNumber")
+        
+    if expected_len is not None:
+        expected_len += 1
+        if "ledColor" in downgraded and isinstance(downgraded["ledColor"], list):
+            if len(downgraded["ledColor"]) > expected_len:
+                downgraded["ledColor"] = downgraded["ledColor"][:expected_len]
+                
+        if "ledRpm" in downgraded and isinstance(downgraded["ledRpm"], list):
+            for gear_obj in downgraded["ledRpm"]:
+                if isinstance(gear_obj, dict):
+                    for gear, rpms in gear_obj.items():
+                        if isinstance(rpms, list) and len(rpms) > expected_len:
+                            gear_obj[gear] = rpms[:expected_len]
+
+    # 7. Enforce original key order
     original_key_order = ["carName", "carId", "carClass", "ledNumber", "redlineBlinkInterval", "ledColor", "ledRpm"]
     final_ordered = {}
     for k in original_key_order:
