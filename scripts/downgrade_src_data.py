@@ -21,6 +21,17 @@ def downgrade_src_file(data):
     downgraded_variants = []
     for variant in variants:
         dv = downgrade_schema.downgrade_car_profile(variant, base_data=data)
+        
+        # Strip redundant overrides that perfectly match the base template
+        keys_to_remove = []
+        for k, v in dv.items():
+            if k not in ["carName", "carId", "fileName"]:
+                if k in downgraded_base and downgraded_base[k] == v:
+                    keys_to_remove.append(k)
+        
+        for k in keys_to_remove:
+            del dv[k]
+            
         downgraded_variants.append(dv)
         
     ordered_base["variants"] = downgraded_variants
