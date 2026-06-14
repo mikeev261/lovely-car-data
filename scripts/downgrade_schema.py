@@ -131,7 +131,7 @@ def process_directory(src_dir, dest_dir):
         os.makedirs(current_dest_dir, exist_ok=True)
         
         for filename in files:
-            if not filename.endswith('.jsonc'):
+            if not filename.endswith('.json'):
                 continue
             src_path = os.path.join(root, filename)
             dest_path = os.path.join(current_dest_dir, filename)
