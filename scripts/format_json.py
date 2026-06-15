@@ -80,7 +80,7 @@ def format_car_profile(data):
     # Strip any illegal trailing commas caused by converting properties to comments at the end of objects
     json_str = re.sub(r',(\s*(?://[^\n]*\s*)*\})', r'\1', json_str)
     
-    return json_str + "\n"
+    return json_str
 
 if __name__ == "__main__":
     import sys

@@ -151,7 +151,7 @@ def format_car_profile(data):
         return f'{newline}{spaces}"{key_name}": [' + ','.join(values) + ']'
         
     json_str = re.sub(r'(^|\n)(\s*)"([RN1-9])":\s*\[([^\]]*)\]', lambda m: compress_rpm(m), json_str)
-    return json_str + "\n"
+    return json_str
 
 def process_directory(src_dir, dest_dir):
     for root, dirs, files in os.walk(src_dir):
