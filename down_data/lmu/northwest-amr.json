@@ -1,6 +1,6 @@
 {
-  "carName": "GTE_Northwest AMR",
-  "carId": "GTE_Northwest AMR",
+  "carName": "Northwest AMR",
+  "carId": "Northwest AMR",
   "carClass": "GTE",
   "ledNumber": 8,
   "redlineBlinkInterval": 0,
